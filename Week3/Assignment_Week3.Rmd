@@ -1,0 +1,36 @@
+---
+title: "Week 3 Assignment"
+author: "Vineet"
+date: "13-May-2022"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r load}
+suppressPackageStartupMessages(library(plotly))
+```
+
+## Mtcars
+Cars' MPG by weight grouped by no of cylinders. Larger points correspond to more horsepower
+```{r plot1}
+data("mtcars")
+
+plot_ly(mtcars, x = ~wt, y = ~mpg, type = "scatter", mode = "markers", color = ~as.factor(cyl), size = ~hp, fill = ~"")
+```
+
+## Diamonds
+Diamond prices by carat grouped by cut type
+```{r plot2}
+data("diamonds")
+
+g2 <- ggplot(data = diamonds, aes(x = carat, y = price)) +
+    geom_point() + geom_smooth(aes(color = cut, fill = cut)) +
+    facet_wrap(~cut)
+ggplt <- ggplotly(g2)
+ggplt
+```
+
+## Thank You

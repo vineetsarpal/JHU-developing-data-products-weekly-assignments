@@ -1,0 +1,46 @@
+---
+title: "Week 2 Assigment"
+author: "Vineet"
+date: "12-May-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r initialize}
+library(leaflet)
+set.seed(2022-12-05)
+```
+
+Map 1: Random points in Delhi NCR, India marked by the Ashoka Chakra icon
+```{r map1}
+chakra_icon <- makeIcon(iconUrl = "https://upload.wikimedia.org/wikipedia/commons/6/6a/Ashoka_Chakra_1.svg", 
+                        iconWidth = 31*215/230, iconHeight = 31,
+                        iconAnchorX = 31*215/230, iconAnchorY = 16)
+
+df_coords <- data.frame(lat = runif(25, min = 28.5, max = 28.7),
+                        lng = runif(25, min = 77, max = 77.5))
+
+df_coords %>% 
+    leaflet() %>% 
+    addTiles() %>% 
+    addMarkers(icon = chakra_icon)
+```
+
+Map 2: Population of major cities in Delhi NCR, India
+```{r map2}
+
+df_cities <- data.frame(name = c("New Delhi", "Noida", "Greater Noida", "Gurugram", "Faridabad", "Ghaziabad"),
+                        population = c(16787941, 637272, 107676, 1153000, 1404653, 1729000),
+                        lat = c(28.644800, 28.535517, 	28.474388, 28.457523, 28.4211, 28.667856),
+                        lng = c(77.216721, 77.391029, 77.503990, 77.026344, 77.3078, 77.449791)
+                        )
+
+df_cities %>% 
+    leaflet() %>% 
+    addTiles() %>% 
+    addCircles(lat = df_cities$lat, lng = df_cities$lng, weight = 1, radius = sqrt(df_cities$population)*5, popup = paste(df_cities$name,"<br>", df_cities$population))
+
+```
